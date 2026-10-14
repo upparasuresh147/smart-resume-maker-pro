@@ -1,0 +1,36 @@
+SMART RESUME MAKER PRO 5.0 — SETUP
+
+FILES
+- index.html: single-file frontend for GitHub Pages
+- supabase_setup.sql: database table, RLS policies and secure share RPC
+
+1) Create a Supabase project.
+2) Open SQL Editor, paste supabase_setup.sql, and run it.
+3) Open Project Settings → API. Copy the Project URL and anon/public key.
+4) In index.html, replace:
+   PASTE_YOUR_SUPABASE_PROJECT_URL_HERE
+   PASTE_YOUR_SUPABASE_ANON_PUBLIC_KEY_HERE
+   Do not use a service_role/secret key in browser code.
+5) In Supabase Authentication → URL Configuration, add your GitHub Pages URL
+   to Site URL and Redirect URLs, e.g. https://YOURNAME.github.io/YOURREPO/
+6) In Authentication → Providers → Email, configure email confirmation.
+   For initial testing you can temporarily disable confirmation; enable it
+   before public launch.
+7) Upload index.html to your GitHub repository as index.html and commit/push.
+8) Open the GitHub Pages URL, create an account, log in, create a resume,
+   Save to Cloud, then Enable Share Link.
+9) Open the generated link in a private/incognito window to test public viewing.
+10) Turn Sharing Off to revoke the link.
+
+PRIVACY / SECURITY
+- Private by default: share_token is NULL until the owner enables sharing.
+- Anonymous visitors cannot SELECT from the resumes table.
+- Public view is served only by get_shared_resume(token).
+- The share token is a random 256-bit value generated in the browser.
+- Anyone who possesses the share URL can view the fields in that resume.
+  Do not include sensitive details unless you intend to share them.
+- This starter stores resume text fields. It does not implement photo uploads,
+  DOCX export, AI generation, team accounts, or a public resume directory.
+- Supabase client-side anon key is expected to be public; database security
+  comes from RLS and the restricted RPC. Never expose service_role keys.
+- The app loads Supabase JS from jsDelivr, so users need internet access.
